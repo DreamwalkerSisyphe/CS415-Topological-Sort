@@ -162,7 +162,7 @@ vector <Graph::Node *> Graph::topSort(){
 
 void Graph::visit(int nodePos, vector<bool> & marks, vector<Graph::Node *> & sortedNodes){
     if(marks[nodePos] == true)
-        return;
+        return; //Node is already visited so exit
     if(nodeVector->at(nodePos)->next != nullptr){
         Neighbor *nextNeighbor; 
         nextNeighbor = nodeVector->at(nodePos)->next;
@@ -171,8 +171,8 @@ void Graph::visit(int nodePos, vector<bool> & marks, vector<Graph::Node *> & sor
             nextNeighbor = nextNeighbor->next;
         }
     }
-    marks[nodePos] = true;
-    sortedNodes.insert(sortedNodes.begin(), nodeVector->at(nodePos));
+    marks[nodePos] = true; //Mark node as visited
+    sortedNodes.insert(sortedNodes.begin(), nodeVector->at(nodePos)); //Add node to the sorted list
 }
 
 int &Graph::clientCount() {
