@@ -4,29 +4,35 @@
 
 
 
-int main(int argc, char *argv[]) {
-//    std::cin >> "Enter the file to read data: ";
+int main() {
+    std::cout << "Enter the file to read data: ";
+    std::string input;
+    getline(std::cin, input);
 
-    std::ifstream inputStream;
-    inputStream.open(argv[1], std::ios::in);    // open for reading
-    if( ! inputStream.is_open()) {
-        std::cout << "Unable to open " << argv[1] << ". Terminating...";
-        exit(2);
-    }
-    inputStream.open(argv[2], std::ios::in);
-    if( ! inputStream.is_open()) {
-        std::cout << "Unable to open " << argv[2] << ". Terminating...";
-        exit(3);
-    }
-
-    Graph graph(argv[1]);
+    Graph graph(input);
     graph.formAdjacencyList();
+    std::vector < Graph::Node *> topologicalNodes = graph.topSort();
 
-//    std::cout << "There are " << graph.clientCount() << " clients in this file\n\n";
-//    std::cout << "Optimal revenue earned is " << graph.optimalRevenue() << "\n";
-//    std::cout << "Clients contributing to this optimal revenue: ";
+    std::vector <Graph::Node *> pathNodes = graph.optimalPath(topologicalNodes);
+    int profit = graph.getProfit(pathNodes);
 
-
+    std::ofstream outfile;
+    outfile.open("out"+input);
+    outfile << "There are " << graph.clientCount()/3 << " clients in this file\n\n";
+    outfile << "Optimal revenue earned is " << profit << "\n";
+    outfile << "Clients contributing to this optimal revenue: ";
+    std::cout<< "There are " << graph.clientCount()/3 << " clients in this file\n\n";
+    std::cout << "Optimal revenue earned is " << profit << "\n";
+    std::cout << "Clients contributing to this optimal revenue: ";
+    int pathSize = pathNodes.size();
+    for (int i = 0; i < pathNodes.size()-1; i++){
+        outfile << pathNodes[i]->initIndex + 1 << ", ";
+        std::cout<< pathNodes[i]->initIndex + 1 << ", ";
+        
+    }
+    outfile << pathNodes[pathSize-1]->initIndex +1 << "\n";
+    std::cout << pathNodes[pathSize-1]->initIndex +1<< "\n";
+    outfile.close();
 
     return 0;
 }
