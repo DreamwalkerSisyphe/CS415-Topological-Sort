@@ -13,24 +13,28 @@ class Graph {
 public:
     explicit Graph(std::string);
     
-    typedef struct Neighbor
+    struct Neighbor
     {
         int index = 0; //Index of the related node
         Neighbor *next = nullptr;
     };
     
-    typedef struct Node
+    struct Node
     {
         int start = 0;
         int end = 0;
         int weight = 0;
         Neighbor *next = nullptr;
         bool isStartNode = true;
+        int initIndex = NULL;
     };
 
     Node * getNode();
     void formAdjacencyList();
-    vector < Node * > topSort();
+    std::vector < Node * > topSort();
+    std::vector < Node * > optimalPath(std::vector< Node * >);
+    std::vector < Node * > pathFinder(Node *);
+    int getProfit(std::vector< Node *>);
     int &clientCount();
     int &optimalRevenue();
     ~Graph();
@@ -45,7 +49,7 @@ private:
     int client_count, optimal_revenue;
     std::vector<int> contributingClients;
     std::vector<Node *> allNodes;
-    void visit(int, vector<bool> &, vector<Graph::Node *> &);
+    void visit(int, std::vector<bool> &, std::vector<Graph::Node *> &);
 };
 
 
